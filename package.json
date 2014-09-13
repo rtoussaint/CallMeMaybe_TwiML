@@ -1,0 +1,22 @@
+{
+  "name": "CallMeMaybe_TwiML",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rtoussaint/CallMeMaybe_TwiML.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rtoussaint/CallMeMaybe_TwiML/issues"
+  },
+  "homepage": "https://github.com/rtoussaint/CallMeMaybe_TwiML",
+  "dependencies": {
+    "express": "^4.9.0"
+  }
+}
