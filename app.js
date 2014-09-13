@@ -1,25 +1,34 @@
 var express = require('express');
 var app = express();
+var url = require('url');
 
 // queries: tonesSoFar, number
 app.get('/', function(req, res){
     var play = '';
 
     if (req.query.tonesSoFar && req.query.tonesSoFar.length > 0){
-        play = '<Play digits="ww' + req.query.tonesSoFar.split('').join('ww') + '" > </Play>';
+        play = '<Play digits="ww' + req.query.tonesSoFar.split('').join('ww') + '"> </Play>';
     } else {
-        return res.send(400);
+        return res.send(400).end();
     }
 
-    if (!req.query.number) {
-        return res.send(400);
+    if (!req.query.number || !req.query.name) {
+        return res.send(400).end();
     }
 
-    var output = '<?xml version="1.0" encoding="UTF-8"?><Response>' +
-    play +
-    '<Record maxLength="30" timeout="4" transcribe="true" transcribeCallback="' + process.env.CALLBACK_HOST +
-    '?tonesSoFar='+req.query.tonesSoFar + '&number='+req.query.number+'" ' +
-    'action="'+process.env.CALLBACK_HOST+'"/></Response>';
+    var callbackUrl = url.format({
+      host: process.env.CALLBACK_HOST,
+      protocol: 'http',
+      query: {
+        tonesSoFar: req.query.tonesSoFar,
+        number: req.query.number,
+        name: req.query.name
+      }
+    });
+
+    var output = '<?xml version="1.0" encoding="UTF-8"?><Response>' + play +
+    '<Record maxLength="30" timeout="4" transcribe="true" transcribeCallback="' +
+    callbackUrl + '" action="' + process.env.CALLBACK_HOST + '"/></Response>';
     res.send(output);
     console.log(output);
 });
